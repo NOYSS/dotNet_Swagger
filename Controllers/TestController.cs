@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using WebCoreAPI.Services;
+using WebCoreAPI.Services.Central;
 
 namespace WebCoreAPI.Controllers
 {
@@ -19,11 +23,15 @@ namespace WebCoreAPI.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
+      [HttpGet("{id}")]
         [ApiExplorerSettings(GroupName = "v1")]
-        public ActionResult<string> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            DicService c = new DicService();
+
+            var responseContent = await c.getById(id);
+                return Ok(responseContent);
+            
         }
 
         // POST api/values
